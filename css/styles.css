@@ -1,0 +1,620 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+}
+
+header, footer {
+    background-color: #1c4857;
+    color: white;
+    padding: 0 20px 20px;
+    text-align: center;
+}
+.link_profile {
+    color: #1c4857;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.link_profile::first-letter {
+    text-transform: uppercase;
+}
+.link_profile:hover {
+    text-decoration: underline;
+}
+footer {
+    padding: 20px 0;
+}
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#logo {
+    width: 100px;
+    margin-right: 20px; 
+}
+.container{
+    padding: 0 30px;
+    width: calc(100% - 60px);
+}
+
+nav a {
+    color: white;
+    margin: 0 15px;
+    text-decoration: none;
+}
+
+nav a:hover {
+    text-decoration: underline;
+    color: orange;
+}
+
+h1, h2, h3 {
+    margin: 20px 0;
+}
+
+.title {
+    font-weight: 700;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.tournament_position {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.tournament_position select {
+    margin-bottom: 0;
+}
+.form {
+    background-color: white;
+    padding: 20px 30px;
+    margin: 20px auto;
+    width: 800px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#sets {    
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0 20px;
+}
+.player_cont {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.player_item {
+    width: 100%;
+}
+
+.set {
+    width: 100%;
+}
+label {
+    display: block;
+    margin: 10px 0 5px;
+}
+
+
+input[type="text"], input[type="number"],input[type="email"], input[type="tel"],input[type="date"], select {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background-color: #f0f4f8;
+    color: #333;
+    font-size: 1rem;
+    transition: all 0.3s;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    
+}
+input[type="text"], input[type="number"],input[type="email"], input[type="tel"],input[type="date"],input[type="password"]    {
+    width: -webkit-fill-available;
+}
+
+input[type="submit"] {
+    background-color: #1c4857;
+    color: white;
+    border-radius: 10px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #1c4857;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: left;
+}
+
+th {
+    background-color: #1c4857;
+    color: white;
+}
+
+
+h2 {
+    color: #333;
+}
+
+h3 {
+    color: #555;
+}
+
+h4 {
+    font-weight: normal;
+    color: #777;
+}
+
+p {
+    font-size: 1rem;
+    margin: 5px 0;
+}
+.button {
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: #1c4857; /* Color de fondo */
+    color: white; /* Color del texto */
+    text-decoration: none; /* Sin subrayado */
+    border-radius: 5px; /* Bordes redondeados */
+}
+
+.button:hover {
+    background-color: #1c4857; /* Color de fondo al pasar el ratón */
+}
+
+
+
+
+.add_player__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.add_player__item .item {
+    width: 100%;
+}
+
+/* Estilos para el mensaje después de registrar el partido */
+.message {
+    background-color: #f8f9fa;
+    border: 2px solid #007bff;
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+.message p {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.message strong {
+    color: #007bff; 
+}
+
+.message .btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.message .btn:hover {
+    background-color: #218838;
+}
+
+
+/* Estilo general de la sección */
+.como-funciona {
+    background-color: #f9f9f9;
+    padding: 40px 0;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Títulos */
+.section-title {
+    font-size: 28px;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.sub-title {
+    font-size: 22px;
+    color: #555;
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+
+/* Descripción de la sección */
+.section-description {
+    font-size: 16px;
+    color: #777;
+    line-height: 1.6;
+    text-align: center;
+}
+
+/* Tabla de puntos */
+.points-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.points-table th,
+.points-table td {
+    padding: 15px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+.points-table th {
+    background-color: #f5f5f5;
+    font-weight: bold;
+    color: #444;
+}
+
+.points-table td {
+    font-size: 16px;
+    color: #555;
+}
+
+.points-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.highlight {
+    background-color: #e0f7fa;
+    color: #00796b;
+    font-weight: bold;
+}
+
+/* Lista de cálculos */
+.calculation-list {
+    list-style-type: none;
+    padding: 0;
+    font-size: 16px;
+}
+
+.calculation-list li {
+    background-color: #f1f1f1;
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    border-left: 5px solid #4caf50;
+    font-weight: bold;
+}
+
+/* Estilos para la tabla de puntos por posición */
+.position-points-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.position-points-table th,
+.position-points-table td {
+    padding: 15px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+.position-points-table th {
+    background-color: #f5f5f5;
+    font-weight: bold;
+    color: #444;
+}
+
+.position-points-table td {
+    font-size: 16px;
+    color: #555;
+}
+
+.position-points-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.position-points-table tr:hover {
+    background-color: #e8f5e9;
+}
+
+.position-points-table td {
+    font-weight: bold;
+}
+
+
+/* Estilos generales para el contenedor del login */
+
+.login {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80vh;
+    background: #f7f7f7;
+}
+
+.login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #4a90e2, #50b3a2);
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 100%;
+    color: #fff;
+    text-align: center;
+}
+
+.login-title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #fff;
+    font-weight: 600;
+    text-align: center;
+}
+
+.login-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.login-input {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background-color: #f0f4f8;
+    color: #333;
+    font-size: 1rem;
+    transition: all 0.3s;
+}
+
+.login-input::placeholder {
+    color: #999;
+}
+
+/* Input focus */
+.login-input:focus {
+    outline: none;
+    border: 2px solid #50b3a2;
+    background-color: #fff;
+}
+
+/* Botón de login */
+.login-button {
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background-color: #50b3a2;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.login-button:hover {
+    background-color: #4a90e2;
+}
+
+/* Estilos generales para los botones */
+.header__log a {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+/* Estilo para el botón de "Cerrar Sesión" */
+.logout-btn {
+    background-color: #ff4d4d; /* Rojo para indicar cerrar sesión */
+    color: white;
+    border: 1px solid #ff1a1a;
+}
+
+.logout-btn:hover {
+    background-color: #ff1a1a;
+    border-color: #ff0000;
+}
+
+/* Estilo para el botón de "Iniciar Sesión" */
+.login-btn {
+    background-color: #4CAF50; /* Verde para indicar inicio de sesión */
+    color: white;
+    border: 1px solid #45a049;
+}
+
+.login-btn:hover {
+    background-color: #45a049;
+    border-color: #388e3c;
+}
+
+/* Opcional: estilo para la posición y espaciado del contenedor */
+.header__log {
+    text-align: right;
+    margin: 20px;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f2f5;
+    color: #333;
+}
+
+.player-profile {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+.player-profile .container {
+    width: 800px;
+}
+
+.player-card {
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.player-card__avatar {
+    width: 80px;
+    height: 80px;
+    background-color: #ddd;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.player-card__details h2 {
+    font-size: 24px;
+    color: #2c3e50;
+    margin: 0;
+}
+
+.player-card__details p {
+    margin: 5px 0;
+    color: #666;
+}
+
+.player-card__info {
+    margin-top: 20px;
+}
+
+.player-card__info p {
+    font-size: 16px;
+    margin: 5px 0;
+    color: #444;
+}
+
+.player-history {
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.player-history__title {
+    font-size: 20px;
+    color: #16a085;
+    margin-bottom: 15px;
+}
+
+.match-list {
+    list-style: none;
+    padding: 0;
+}
+
+.match-list__item {
+    background-color: #f9f9f9;
+    border: 1px solid #e1e1e1;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 10px;
+}
+
+.match-list__header {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    color: #333;
+}
+
+.match-list__details {
+    color: #555;
+}
+
+.player-history__no-matches {
+    text-align: center;
+    font-size: 16px;
+    color: #e74c3c;
+}
+
+/* Ajustes para pantallas pequeñas */
+@media (max-width: 600px) {
+    .login-container {
+        padding: 20px;
+    }
+    .login-title {
+        font-size: 1.8rem;
+    }
+    .login-button {
+        font-size: 0.9rem;
+    }
+}
+
+/* Asegurarse de que el texto se vea bien en dispositivos pequeños */
+@media (max-width: 768px) {
+    .section-title {
+        font-size: 24px;
+    }
+
+    .sub-title {
+        font-size: 20px;
+    }
+
+    .points-table th,
+    .points-table td {
+        padding: 10px;
+    }
+
+    .section-description {
+        font-size: 14px;
+    }
+
+    .position-points-table th,
+    .position-points-table td {
+        padding: 10px;
+    }
+}
