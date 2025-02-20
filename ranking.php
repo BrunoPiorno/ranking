@@ -3,14 +3,6 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start(); 
 }
 
-if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
-    exit();
-}
-
-
-
-
 include 'db.php';
 
 // Consultar todos los jugadores ordenados por puntos de mayor a menor
@@ -65,7 +57,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_position'])) {
     }
 }
 
-
 function obtener_categoria($puntos) {
     if ($puntos >= 900) {
         return 'Primera';
@@ -78,7 +69,8 @@ function obtener_categoria($puntos) {
     } else {
         return 'Menores';
     }
-}?>
+}
+?>
 
 <?php include 'layout/header.php'; ?>
 <section class="ranking">
@@ -89,9 +81,11 @@ function obtener_categoria($puntos) {
                 <th>Posición</th>
                 <th>Nombre</th>
                 <th>Puntos</th>
-                <th>Categoría</th> 
-                <?php if (isset($_SESSION['user_id'])): ?><th>Posición en Torneo</th><?php endif; ?>
-                <?php if (isset($_SESSION['user_id'])): ?><th>Acciones</th><?php endif; ?>
+                <th>Categoría</th>
+                <?php if (isset($_SESSION['user_id'])): ?>
+                    <th>Posición en Torneo</th>
+                    <th>Acciones</th>
+                <?php endif; ?>
             </tr>
             <?php
             if ($result->num_rows > 0) {
@@ -110,7 +104,7 @@ function obtener_categoria($puntos) {
                             <td><a class='link_profile' href='player_profile.php?id={$row['id']}'>$full_name</a></td>
                             <td>{$row['points']}</td>
                             <td>{$categoria}</td>";
-                    
+
                     if (isset($_SESSION['user_id'])) {
                         echo "<td>
                                 <form class='tournament_position' action='' method='post'>
@@ -132,10 +126,10 @@ function obtener_categoria($puntos) {
                                 </form>
                               </td>";
                     }
-                    
+
                     echo "</tr>";
                     $position++;
-                }                
+                }
             } else {
                 echo "<tr><td colspan='5'>No hay jugadores registrados.</td></tr>";
             }

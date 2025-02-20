@@ -17,6 +17,14 @@ header, footer {
     font-weight: bold;
 }
 
+.link {
+    color: white;
+    font-weight: bold;
+}
+
+.link:hover {
+    opacity: 0.8;
+}
 .link_profile::first-letter {
     text-transform: uppercase;
 }
@@ -25,6 +33,12 @@ header, footer {
 }
 footer {
     padding: 20px 0;
+}
+.footer__cont {
+    display:flex; 
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
 }
 .header {
     display: flex;
@@ -132,7 +146,8 @@ input[type="submit"] {
 }
 
 input[type="submit"]:hover {
-    background-color: #1c4857;
+    background-color: white;
+    color: #1c4857;
 }
 
 table {

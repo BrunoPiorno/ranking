@@ -6,7 +6,12 @@ if (session_status() === PHP_SESSION_NONE) {
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Ranking de Tenis de Mesa Trenque Lauquen. Consulta los puntos y posiciones de los jugadores.">
+    <meta name="keywords" content="tenis de mesa, ranking, jugadores, puntos, torneo">
+    <meta name="author" content="Tu Nombre o Nombre de la Organización">
     <title>Ranking de Tenis de Mesa Trenque Lauquen</title>
+    <link rel="icon" href="images/logo-posta.png" type="image/x-icon"> 
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
@@ -18,7 +23,7 @@ if (session_status() === PHP_SESSION_NONE) {
                     <h1>Ranking de Tenis de Mesa Trenque Lauquen</h1>
                     <nav>
                         <?php if (isset($_SESSION['user_id'])): ?>
-                            <a href="form_add_player.php">Registrar Jugador</a>
+                            <a href="add_player.php">Registrar Jugador</a>
                             <a href="add_match.php">Registrar Partido</a>
                         <?php endif; ?>
                         <a href="ranking.php">Ver Ranking</a>
@@ -33,7 +38,6 @@ if (session_status() === PHP_SESSION_NONE) {
                         <a href="login.php" class="login-btn">Iniciar Sesión</a>
                     <?php endif; ?>
                 </div>
-
             </div>
         </div>
     </header>

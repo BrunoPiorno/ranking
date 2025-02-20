@@ -1,4 +1,4 @@
-<?php
+<!-- <?php
 
 session_start();
 if (!isset($_SESSION['user_id'])) {
@@ -91,4 +91,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 </section>
 
-<?php include 'layout/footer.php'; ?>
+<?php include 'layout/footer.php'; ?> -->
