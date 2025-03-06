@@ -188,14 +188,14 @@ p {
 .button {
     display: inline-block;
     padding: 10px 15px;
-    background-color: #1c4857; /* Color de fondo */
-    color: white; /* Color del texto */
-    text-decoration: none; /* Sin subrayado */
-    border-radius: 5px; /* Bordes redondeados */
+    background-color: #1c4857; 
+    color: white; 
+    text-decoration: none; 
+    border-radius: 5px; 
 }
 
 .button:hover {
-    background-color: #1c4857; /* Color de fondo al pasar el ratón */
+    background-color: #1c4857; 
 }
 
 
@@ -435,14 +435,12 @@ p {
     color: #999;
 }
 
-/* Input focus */
 .login-input:focus {
     outline: none;
     border: 2px solid #50b3a2;
     background-color: #fff;
 }
 
-/* Botón de login */
 .login-button {
     padding: 12px;
     border: none;
@@ -459,7 +457,6 @@ p {
     background-color: #4a90e2;
 }
 
-/* Estilos generales para los botones */
 .header__log a {
     display: inline-block;
     padding: 10px 20px;
@@ -469,9 +466,8 @@ p {
     transition: all 0.3s ease;
 }
 
-/* Estilo para el botón de "Cerrar Sesión" */
 .logout-btn {
-    background-color: #ff4d4d; /* Rojo para indicar cerrar sesión */
+    background-color: #ff4d4d; 
     color: white;
     border: 1px solid #ff1a1a;
 }
@@ -481,9 +477,8 @@ p {
     border-color: #ff0000;
 }
 
-/* Estilo para el botón de "Iniciar Sesión" */
 .login-btn {
-    background-color: #4CAF50; /* Verde para indicar inicio de sesión */
+    background-color: #4CAF50;
     color: white;
     border: 1px solid #45a049;
 }
@@ -493,7 +488,6 @@ p {
     border-color: #388e3c;
 }
 
-/* Opcional: estilo para la posición y espaciado del contenedor */
 .header__log {
     text-align: right;
     margin: 20px;
@@ -595,6 +589,33 @@ body {
     font-size: 16px;
     color: #e74c3c;
 }
+
+.ranking_filter {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#categoria {
+    width: 200px;
+    margin-bottom: 0;
+}
+
+.clear-filters-btn {
+    background-color: #1c4857;
+    color: white;
+    border-radius: 10px;
+    padding: 10px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.clear-filters-btn:hover {
+    background-color: white;
+    color: #1c4857;
+    border: 1px solid #1c4857;
+}
+
 
 /* Ajustes para pantallas pequeñas */
 @media (max-width: 600px) {

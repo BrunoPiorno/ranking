@@ -5,7 +5,7 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 include 'db.php';
-include 'calculate_points.php';  // Incluir el archivo de cálculo de puntos
+include 'calculate_points.php';
 
 // Funciones para obtener y actualizar puntos
 function get_player_points($conn, $player_id) {

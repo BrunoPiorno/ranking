@@ -1,5 +1,18 @@
 <?php
 include 'db.php';
+function obtener_categoria($puntos) {
+    if ($puntos >= 900) {
+        return 'Primera';
+    } elseif ($puntos >= 500) {
+        return 'Segunda';
+    } elseif ($puntos >= 300) {
+        return 'Tercera';
+    } elseif ($puntos >= 100) {
+        return 'Cuarta';
+    } else {
+        return 'Menores';
+    }
+}
 
 if (isset($_GET['id'])) {
     $player_id = intval($_GET['id']);
@@ -10,12 +23,26 @@ if (isset($_GET['id'])) {
 
     if ($result->num_rows > 0) {
         $player = $result->fetch_assoc();
+        $points = $player['points'];
+        $category = obtener_categoria($points);
 
         // Posición en el ranking
         $ranking_sql = "SELECT COUNT(*) AS position FROM players WHERE points > (SELECT points FROM players WHERE id = $player_id)";
         $ranking_result = $conn->query($ranking_sql);
         $position_data = $ranking_result->fetch_assoc();
         $position = $position_data['position'] + 1;
+
+        // Ranking dentro de la categoría
+        $category_ranking_sql = "SELECT COUNT(*) AS category_position FROM players 
+                                 WHERE points > $points 
+                                 AND (points >= 900 AND '$category' = 'Primera'
+                                     OR points >= 500 AND points < 900 AND '$category' = 'Segunda'
+                                     OR points >= 300 AND points < 500 AND '$category' = 'Tercera'
+                                     OR points >= 100 AND points < 300 AND '$category' = 'Cuarta'
+                                     OR points < 100 AND '$category' = 'Menores')";
+        $category_ranking_result = $conn->query($category_ranking_sql);
+        $category_position_data = $category_ranking_result->fetch_assoc();
+        $category_position = $category_position_data['category_position'] + 1;
 
         // Historial de partidos
         // $matches_sql = "
@@ -57,7 +84,8 @@ $conn->close();
             <div class="player-card__header">
                 <div class="player-card__details">
                     <h2><?php echo htmlspecialchars($player['name'] . ' ' . $player['last_name']); ?></h2>
-                    <p>Posición en el Ranking: #<?php echo htmlspecialchars($position); ?></p>
+                    <p>Posición en el Ranking General: #<?php echo htmlspecialchars($position); ?></p>
+                    <p>Posición en el Ranking de <?php echo htmlspecialchars($category); ?>: #<?php echo htmlspecialchars($category_position); ?></p>
                     <p>Puntos: <?php echo htmlspecialchars($player['points']); ?></p>
                 </div>
             </div>
