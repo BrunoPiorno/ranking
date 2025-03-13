@@ -79,7 +79,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Llamamos a la función de cálculo de puntos
     $points = calculate_points($player1_current_points, $player2_current_points, $winner_id, $loser_id, $player1_id, $player2_id);
-
+    
+    if ($points['loser_points'] < 0) {
+        // Evitar que los puntos del perdedor bajen de 100
+        $loser_current_points = get_player_points($conn, $loser_id);
+        if ($loser_current_points + $points['loser_points'] < 100) {
+            $points['loser_points'] = 0;  // Establecer 0 puntos adicionales si intentan bajar de 100
+        }
+    }
+    
     update_player_points($conn, $winner_id, $points['winner_points']);
     update_player_points($conn, $loser_id, $points['loser_points']);
 

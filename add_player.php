@@ -2,7 +2,6 @@
 include 'layout/header.php';
 include 'db.php';
 
-// Inicializar mensaje de éxito y el ID del jugador
 $successMessage = "";
 $playerId = 0;
 
@@ -15,13 +14,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     //$email = $_POST['email']; // Se elimina ya que no se usa
     $phone = $_POST['phone'];
     $init_point = $_POST['init_point'];
+    $localidad = $_POST['localidad'];
 
     // Insertar el nuevo jugador en la base de datos
-    $sql = "INSERT INTO players (name, last_name, document, phone, points) 
-            VALUES (?, ?, ?, ?, ?)"; // Ajustado para que coincidan los campos de la base de datos
+    $sql = "INSERT INTO players (name, last_name, document, phone, points,localidad) 
+            VALUES (?, ?, ?, ?, ?, ?)"; 
 
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssss", $name, $last_name, $document, $phone, $init_point); // Se ajusta el tipo de datos
+    $stmt->bind_param("ssssss", $name, $last_name, $document, $phone, $init_point, $localidad); 
 
     if ($stmt->execute()) {
         // Obtener el ID del jugador insertado
@@ -51,6 +51,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="item">
                     <label for="last_name">Apellido:</label>
                     <input type="text" name="last_name" required>
+                </div>
+            </div>
+            
+            <div class="add_player__item">
+                <div class="item">
+                    <label for="localidad">Localidad:</label>
+                    <input type="text" name="localidad" required>
                 </div>
             </div>
 

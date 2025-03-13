@@ -13,6 +13,16 @@ if (session_status() === PHP_SESSION_NONE) {
     <title>Ranking de Tenis de Mesa Trenque Lauquen</title>
     <link rel="icon" href="images/logo-posta.png" type="image/x-icon"> 
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R9X5XTTZ8D"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-R9X5XTTZ8D');
+    </script>
 </head>
 <body>
     <header>
@@ -27,6 +37,7 @@ if (session_status() === PHP_SESSION_NONE) {
                             <a href="add_match.php">Registrar Partido</a>
                         <?php endif; ?>
                         <a href="ranking.php">Ver Ranking</a>
+                        <a href="tournament.php">Podios</a>
                         <a href="como_funciona.php">Sistema de Puntos</a>
                     </nav>
                 </div>

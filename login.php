@@ -2,6 +2,8 @@
 session_start();
 include 'db.php';
 
+$errorMessage = ""; // Variable para almacenar mensajes de error
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
     $password = $_POST['password'];
@@ -26,10 +28,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             header("Location: ranking.php"); 
             exit;
         } else {
-            echo "Contraseña incorrecta.";
+            $errorMessage = "Contraseña incorrecta.";
         }
     } else {
-        echo "Usuario no encontrado.";
+        $errorMessage = "Usuario no encontrado.";
     }
 }
 ?>
@@ -45,7 +47,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <?php include 'layout/header.php'; ?>
     <section class="login">
         <div class="login-container">
-            <h2 class="login-title">Iniciar Sesión</h2>
+            <h2 class="login-title">Iniciar Sesión</h2>   
+
             <form action="login.php" method="POST" class="login-form">
                 <div class="form-group">
                     <input type="text" name="username" placeholder="Usuario" required class="login-input">
@@ -53,6 +56,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <div class="form-group">
                     <input type="password" name="password" placeholder="Contraseña" required class="login-input">
                 </div>
+
+                <?php if ($errorMessage): ?>
+                    <div class="error-message">
+                        <p><?php echo $errorMessage; ?></p>
+                    </div>
+                <?php endif; ?>
+                
                 <button type="submit" class="login-button">Ingresar</button>
             </form>
         </div>

@@ -44,6 +44,13 @@ if (isset($_GET['id'])) {
         $category_position_data = $category_ranking_result->fetch_assoc();
         $category_position = $category_position_data['category_position'] + 1;
 
+        $results_sql = "SELECT r.tournament_id, r.position, r.category, t.name AS tournament_name
+                FROM results r
+                JOIN tournaments t ON r.tournament_id = t.id
+                WHERE r.player_id = $player_id AND r.position <= 3";  // Posiciones 1, 2, 3 son el podio
+        $results_result = $conn->query($results_sql);
+
+
         // Historial de partidos
         // $matches_sql = "
         // SELECT m.id, 
@@ -94,6 +101,22 @@ $conn->close();
                 <p><strong>Teléfono:</strong> <?php echo htmlspecialchars($player['phone']); ?></p>
             </div>
         </div>
+
+        <?php if ($results_result->num_rows > 0): ?>
+            <div class="player-podium">
+                <h3 class="player-podium__title">Torneos en el Podio</h3>
+            
+                <ul class="podium-list">
+                    <?php while ($result = $results_result->fetch_assoc()): ?>
+                        <li class="podium-list__item">
+                            <p><strong>Torneo:</strong> <?php echo htmlspecialchars($result['tournament_name']); ?></p>
+                            <p><strong>Posición:</strong> <?php echo htmlspecialchars($result['position']); ?></p>
+                            <p><strong>Categoría:</strong> <?php echo htmlspecialchars($result['category']); ?></p>
+                        </li>
+                    <?php endwhile; ?>
+                </ul>
+            </div>
+        <?php endif; ?>
 
         <!-- Historial de partidos -->
         <!-- <div class="player-history">
