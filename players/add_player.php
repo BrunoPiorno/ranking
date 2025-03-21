@@ -1,37 +1,46 @@
 <?php
-include 'layout/header.php';
-include 'db.php';
+include '../layout/header.php';
+include '../db.php';
 
 $successMessage = "";
+$errorMessage = "";
 $playerId = 0;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Obtener los datos del formulario
     $name = $_POST['name'];
     $last_name = $_POST['last_name'];
-    //$birthdate = $_POST['birthdate']; // Se elimina ya que no se usa
     $document = $_POST['document'];
-    //$email = $_POST['email']; // Se elimina ya que no se usa
     $phone = $_POST['phone'];
     $init_point = $_POST['init_point'];
     $localidad = $_POST['localidad'];
 
-    // Insertar el nuevo jugador en la base de datos
-    $sql = "INSERT INTO players (name, last_name, document, phone, points,localidad) 
-            VALUES (?, ?, ?, ?, ?, ?)"; 
+    $checkSql = "SELECT id FROM players WHERE document = ? OR last_name = ?";
+    $checkStmt = $conn->prepare($checkSql);
+    $checkStmt->bind_param("ss", $document, $last_name);
+    $checkStmt->execute();
+    $checkStmt->store_result();
 
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssssss", $name, $last_name, $document, $phone, $init_point, $localidad); 
 
-    if ($stmt->execute()) {
-        // Obtener el ID del jugador insertado
-        $playerId = $stmt->insert_id;
-
-        // Generar el mensaje de éxito
-        $successMessage = "Jugador registrado exitosamente.";
+    if ($checkStmt->num_rows > 0) {
+        $errorMessage = "El jugador con DNI $document o Apellido $last_name ya está registrado.";
     } else {
-        // Si falla la inserción
-        $successMessage = "Hubo un error al registrar al jugador. Inténtelo nuevamente.";
+        // Insertar el nuevo jugador en la base de datos
+        $sql = "INSERT INTO players (name, last_name, document, phone, points,localidad) 
+                VALUES (?, ?, ?, ?, ?, ?)"; 
+
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ssssss", $name, $last_name, $document, $phone, $init_point, $localidad); 
+
+        if ($stmt->execute()) {
+            // Obtener el ID del jugador insertado
+            $playerId = $stmt->insert_id;
+
+            // Generar el mensaje de éxito
+            $successMessage = "Jugador registrado exitosamente.";
+        } else {
+            // Si falla la inserción
+            $successMessage = "Hubo un error al registrar al jugador. Inténtelo nuevamente.";
+        }
     }
 }
 
@@ -91,7 +100,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <?php endif; ?>
             </div>
         <?php endif; ?>
+
+        <?php if ($errorMessage): ?>
+            <div class="message error">
+                <p><?php echo $errorMessage; ?></p>
+            </div>
+        <?php endif; ?>
     </div>
 </section>
 
-<?php include 'layout/footer.php'; ?>
+<?php include '../layout/footer.php'; ?>

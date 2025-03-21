@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'db.php';
+include '../db.php';
 
 $errorMessage = ""; // Variable para almacenar mensajes de error
 
@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['username'] = $user['username'];
             $_SESSION['role'] = $user['role'];
 
-            header("Location: ranking.php"); 
+            header("Location: ../ranking.php"); 
             exit;
         } else {
             $errorMessage = "Contraseña incorrecta.";
@@ -41,10 +41,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>Iniciar Sesión</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
-    <?php include 'layout/header.php'; ?>
+    <?php include '../layout/header.php'; ?>
     <section class="login">
         <div class="login-container">
             <h2 class="login-title">Iniciar Sesión</h2>   
@@ -68,6 +68,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
     </section>
 
-    <?php include 'layout/footer.php'; ?>
+    <?php include '../layout/footer.php'; ?>
 </body>
 </html>

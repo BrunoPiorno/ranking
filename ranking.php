@@ -1,5 +1,3 @@
-
-
 <?php
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -20,10 +18,11 @@ $types = "";
 $where_clauses = [];
 
 if (!empty($search)) {
-    $where_clauses[] = "(name LIKE ? OR last_name LIKE ?)";
+    $where_clauses[] = "(name LIKE ? OR last_name LIKE ? OR localidad LIKE ?)";
     $params[] = "%$search%";
     $params[] = "%$search%";
-    $types .= "ss";
+    $params[] = "%$search%";
+    $types .= "sss";    
 }
 
 if ($categoria_filtro) {
@@ -42,7 +41,7 @@ if (!empty($where_clauses)) {
     $sql .= " WHERE " . implode(" AND ", $where_clauses);
 }
 
-$sql .= " ORDER BY points DESC LIMIT ? OFFSET ?";
+$sql .= " ORDER BY points DESC, last_name ASC, name ASC LIMIT ? OFFSET ?";
 $params[] = $results_per_page; 
 $params[] = $offset;  // OFFSET
 $types .= "ii";  // Para los dos parámetros de tipo entero (LIMIT y OFFSET);
@@ -78,19 +77,59 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['reset_player_id'])) {
     }
 }
 
-function obtener_categoria($puntos) {
-    if ($puntos >= 900) {
-        return 'Primera';
-    } elseif ($puntos >= 500) {
-        return 'Segunda';
-    } elseif ($puntos >= 300) {
-        return 'Tercera';
-    } elseif ($puntos >= 100) {
-        return 'Cuarta';
-    } else {
-        return 'Menores';
-    }
+// Consulta para contar los jugadores con los filtros aplicados
+$count_sql = "SELECT COUNT(*) FROM players";
+$count_where_clauses = [];
+
+if (!empty($search)) {
+    $count_where_clauses[] = "(name LIKE ? OR last_name LIKE ? OR localidad LIKE ?)";
 }
+
+if ($categoria_filtro) {
+    $count_where_clauses[] = "(CASE
+                WHEN points >= 900 THEN 'Primera'
+                WHEN points >= 500 THEN 'Segunda'
+                WHEN points >= 300 THEN 'Tercera'
+                WHEN points >= 100 THEN 'Cuarta'
+                ELSE 'Menores'
+            END) = ?";
+}
+
+if (!empty($count_where_clauses)) {
+    $count_sql .= " WHERE " . implode(" AND ", $count_where_clauses);
+}
+
+$count_params = [];
+$count_types = "";
+
+// Agregar los parámetros de búsqueda y categoría
+if (!empty($search)) {
+    $count_params[] = "%$search%";
+    $count_params[] = "%$search%";
+    $count_params[] = "%$search%";
+    $count_types .= "sss";
+}
+
+if ($categoria_filtro) {
+    $count_params[] = $categoria_filtro;
+    $count_types .= "s";
+}
+
+// Ejecutar la consulta para contar los jugadores
+if ($count_stmt = $conn->prepare($count_sql)) {
+    if (!empty($count_params)) {
+        $count_stmt->bind_param($count_types, ...$count_params);
+    }
+    $count_stmt->execute();
+    $total_players = $count_stmt->get_result()->fetch_row()[0]; // Obtener el número total de jugadores filtrados
+    $count_stmt->close();
+}
+
+// Calcular el número total de páginas
+$total_pages = ceil($total_players / $results_per_page);
+
+
+include 'functions/obtener_categoria.php';   
 ?>
 
 <?php include 'layout/header.php'; ?>
@@ -119,10 +158,13 @@ function obtener_categoria($puntos) {
             </form>
 
             <form method="GET" action="" class="search-form">
-                <label for="categoria">Filtrar por Jugador:</label>
+                <label for="categoria">Filtrar por Jugador o Localidad:</label>
                 <div class="ranking_filter">
                     <input type="text" name="search" placeholder="Buscar jugador" value="<?php echo htmlspecialchars($search); ?>">
                     <input type="submit" value="Buscar">
+                    <?php if (!empty($_GET['search'])): ?>
+                        <a href="ranking.php" class="clear-filters-btn">Limpiar</a>
+                    <?php endif; ?>
                 </div>
             </form>
         </div>
@@ -147,11 +189,11 @@ function obtener_categoria($puntos) {
                     $categoria = obtener_categoria($row['points']);
 
                     echo "<tr>
-                            <td>{$position}</td>
-                            <td><a class='link_profile' href='player_profile.php?id={$row['id']}'>$full_name</a></td>
-                            <td>{$row['localidad']}</td>
-                            <td>{$row['points']}</td>
-                            <td>{$categoria}</td>";
+                        <td>{$position}</td>
+                        <td><a class='link_profile' href='" . url('/') . "players/player_profile.php?id={$row['id']}'>{$full_name}</a></td>
+                        <td>{$row['localidad']}</td>
+                        <td>{$row['points']}</td>
+                        <td>{$categoria}</td>";
 
                     echo "</tr>";
                     $position++;
@@ -163,18 +205,20 @@ function obtener_categoria($puntos) {
         </table>
 
         <div class="pagination">
-            <?php if ($page > 1): ?>
-                <a href="?page=1" class="<?php echo ($page == 1) ? 'active' : ''; ?>">Primera</a>
-                Página <?php echo $page; ?> de <?php echo $total_pages; ?>
-                <a href="?page=<?php echo $page - 1; ?>" class="<?php echo ($page == 1) ? 'disabled' : ''; ?>">Anterior</a>
-            <?php endif; ?>
+            <?php if ($total_players > $results_per_page): ?>
+                <?php if ($page > 1): ?>
+                    <a href="?page=<?php echo $page - 1; ?>" class="<?php echo ($page == 1) ? 'disabled' : ''; ?>">Anterior</a>
+                <?php endif; ?>
 
-            <?php if ($page < $total_pages): ?>
-                <a href="?page=<?php echo $page + 1; ?>" class="<?php echo ($page == $total_pages) ? 'disabled' : ''; ?>">Siguiente</a>
                 Página <?php echo $page; ?> de <?php echo $total_pages; ?>
-                <a href="?page=<?php echo $total_pages; ?>" class="<?php echo ($page == $total_pages) ? 'active' : ''; ?>">Última</a>
+
+                <?php if ($page < $total_pages): ?>
+                    <a href="?page=<?php echo $page + 1; ?>" class="<?php echo ($page == $total_pages) ? 'disabled' : ''; ?>">Siguiente</a>
+                <?php endif; ?>
             <?php endif; ?>
         </div>
+
+
 
     </div>
 </section>

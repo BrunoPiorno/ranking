@@ -1,8 +1,25 @@
-body {
-    font-family: Arial, sans-serif;
+html, body {
+    height: 100%;
     margin: 0;
     padding: 0;
+}
+
+/* El contenido principal debe crecer para ocupar el espacio disponible */
+main {
+    flex: 1;
+    padding: 20px 0;
+}
+
+/* El footer se mantendrá al final */
+footer {
+    margin-top: auto;
+}
+body {
+    font-family: Arial, sans-serif;
     background-color: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 header, footer {
@@ -12,6 +29,7 @@ header, footer {
     text-align: center;
 }
 .link_profile {
+    text-transform: capitalize;
     color: #1c4857;
     text-decoration: none;
     font-weight: bold;
@@ -185,6 +203,8 @@ p {
     font-size: 1rem;
     margin: 5px 0;
 }
+
+#delete-form {text-align: right;}
 .button {
     display: inline-block;
     padding: 10px 15px;
@@ -192,15 +212,32 @@ p {
     color: white; 
     text-decoration: none; 
     border-radius: 5px; 
+    cursor: pointer;
+    border: 1px solid #1c4857;
+    margin-top: 10px;
 }
 
 .button:hover {
-    background-color: #1c4857; 
+    background-color: white; 
+    color: #1c4857; 
+    border: 1px solid #1c4857;
 }
 
+.swal2-icon.swal2-warning {
+    border-color: #1c4857 !important; 
+    color: #1c4857 !important;
+}
 
-
-
+.swal2-styled.swal2-confirm {
+    background-color: #1c4857 !important; 
+    color: white !important;
+    border-color: #1c4857 !important; 
+}
+.swal2-styled.swal2-confirm:hover {
+    background-color: white !important; 
+    color: #1c4857 !important; 
+    border-color: #1c4857 !important; 
+}
 .add_player__item {
     display: flex;
     align-items: center;
@@ -333,7 +370,7 @@ p {
     background-color: #f1f1f1;
     padding: 10px 15px;
     margin-bottom: 10px;
-    border-left: 5px solid #4caf50;
+    border-left: 5px solid #1c4857;
     font-weight: bold;
 }
 
@@ -425,6 +462,7 @@ p {
     width: 100%;
     display: flex;
     flex-direction: column;
+    box-sizing: border-box;
 }
 
 .form-group {
@@ -440,6 +478,7 @@ p {
     color: #333;
     font-size: 1rem;
     transition: all 0.3s;
+    box-sizing: border-box;
 }
 
 .login-input::placeholder {
@@ -448,7 +487,6 @@ p {
 
 .login-input:focus {
     outline: none;
-    border: 2px solid #50b3a2;
     background-color: #fff;
 }
 
@@ -465,7 +503,7 @@ p {
 }
 
 .login-button:hover {
-    background-color: #4a90e2;
+    background-color: #1c4857;
 }
 
 .header__log a {
@@ -475,6 +513,11 @@ p {
     text-decoration: none;
     border-radius: 5px;
     transition: all 0.3s ease;
+}
+
+.header__log a:hover {
+    background-color: #1c4857;
+    border-color: white;
 }
 
 .logout-btn {
@@ -490,7 +533,7 @@ p {
 }
 
 .login-btn {
-    background-color: #4CAF50;
+    background-color: #45a049;
     color: white;
     border: 1px solid #45a049;
 }
@@ -508,67 +551,6 @@ body {
     font-family: Arial, sans-serif;
     background-color: #f0f2f5;
     color: #333;
-}
-
-.player-profile {
-    display: flex;
-    justify-content: center;
-    padding: 20px;
-}
-
-.player-profile .container {
-    width: 800px;
-}
-
-.player-card {
-    background-color: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    padding: 20px;
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-.player-card__avatar {
-    width: 80px;
-    height: 80px;
-    background-color: #ddd;
-    border-radius: 50%;
-    flex-shrink: 0;
-}
-
-.player-card__details h2 {
-    font-size: 24px;
-    color: #2c3e50;
-    margin: 0;
-}
-
-.player-card__details p {
-    margin: 5px 0;
-    color: #666;
-}
-
-.player-card__info {
-    margin-top: 20px;
-}
-
-.player-card__info p {
-    font-size: 16px;
-    margin: 5px 0;
-    color: #444;
-}
-
-.player-history {
-    background-color: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    padding: 20px;
-}
-
-.player-history__title {
-    font-size: 20px;
-    color: #16a085;
-    margin-bottom: 15px;
 }
 
 .match-list {
@@ -611,6 +593,45 @@ body {
     margin-bottom: 0;
 }
 
+.ranking_filter-tournament {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 2rem;
+}
+
+.ranking_filter-tournament select {
+    min-width: 200px;
+    padding: 10px 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #333;
+    background-color: #f8f9fa;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 1em;
+}
+
+.ranking_filter-tournament select:hover {
+    border-color: #1c4857;
+    background-color: #fff;
+}
+
+.ranking_filter-tournament select:focus {
+    outline: none;
+    border-color: #1c4857;
+    box-shadow: 0 0 0 3px rgba(28,72,87,0.1);
+}
+
 .ranking__cont {
     display: flex;
     align-items: center;
@@ -634,7 +655,6 @@ body {
 .clear-filters-btn:hover {
     background-color: white;
     color: #1c4857;
-    border: 1px solid #1c4857;
 }
 
 .pagination {
@@ -950,4 +970,37 @@ body {
         grid-template-columns: 1fr;
         gap: 0;
     }
+}
+
+/* Estilos personalizados para Select2 */
+.select2-container {
+    width: 100% !important;
+}
+
+.select2-container--default .select2-selection--single {
+    height: 58px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 38px;
+    color: #333;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 36px;
+}
+
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+    background-color: #1c4857;
+}
+
+.select2-dropdown {
+    border: 1px solid #ddd;
+}
+
+.select2-search--dropdown .select2-search__field {
+    padding: 8px;
+    border: 1px solid #ddd;
 }

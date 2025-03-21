@@ -5,7 +5,7 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 include 'db.php';
-include 'calculate_points.php';
+include 'functions/calculate_points.php';
 
 // Funciones para obtener y actualizar puntos
 function get_player_points($conn, $player_id) {
@@ -104,8 +104,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->execute();
 }
 
-include('layout/header.php');
-?>
+include('layout/header.php');?>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <section class="add_match">
     <div class="container">
         <h1 class="title">Registrar Partido</h1>
@@ -113,30 +115,31 @@ include('layout/header.php');
             <div class="player_cont">
                 <div class="player_item">
                     <label for="player1_id">Jugador 1:</label>
-                    <select name="player1_id" required>
-                        <option value="">Seleccione un jugador</option>
+                    <select name="player1_id" class="select2-player" required>
+                        <option value="">Buscar jugador...</option>
                         <?php
-                        $result = $conn->query("SELECT id, name, last_name FROM players");
+                        $result = $conn->query("SELECT id, name, last_name FROM players ORDER BY last_name ASC");
                         while ($row = $result->fetch_assoc()) {
-                            echo "<option value='{$row['id']}'>{$row['last_name']} {$row['name']}</option>";
+                            echo "<option value='{$row['id']}'>{$row['last_name']}, {$row['name']}</option>";
                         }
                         ?>
                     </select>
                 </div>
-
+            
                 <div class="player_item">
                     <label for="player2_id">Jugador 2:</label>
-                    <select name="player2_id" required>
-                        <option value="">Seleccione un jugador</option>
+                    <select name="player2_id" class="select2-player" required>
+                        <option value="">Buscar jugador...</option>
                         <?php
-                        $result = $conn->query("SELECT id, name, last_name FROM players");
+                        $result = $conn->query("SELECT id, name, last_name FROM players ORDER BY last_name ASC");
                         while ($row = $result->fetch_assoc()) {
-                            echo "<option value='{$row['id']}'>{$row['last_name']} {$row['name']}</option>";
+                            echo "<option value='{$row['id']}'>{$row['last_name']}, {$row['name']}</option>";
                         }
                         ?>
                     </select>
                 </div>
             </div>
+
 
             <div id="sets">
                 <?php for ($i = 1; $i <= 5; $i++): ?>
@@ -157,6 +160,8 @@ include('layout/header.php');
                 <a href="ranking.php" class="btn">Ver Tabla de Ranking</a>
             </div>
         <?php endif; ?>
+    </div>
 </section>
 
+<script src="/ranking/js/select2-init.js"></script>
 <?php include('layout/footer.php'); ?>

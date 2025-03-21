@@ -36,7 +36,7 @@ Este es un sistema de ranking para gestionar jugadores, partidos y puntajes. Per
    ```
 2. Abre en tu navegador:
    ```
-   http://localhost:8888/ranking/
+   http://localhost:8888<?= url('/') ?>
    ```
 3. Registra jugadores y partidos desde la interfaz.
 4. Consulta el ranking actualizado.

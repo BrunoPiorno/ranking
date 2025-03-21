@@ -1,4 +1,4 @@
 <?php
-// Redirigir automáticamente a ranking.php
-header("Location: ranking.php");
+// Redirigir automáticamente sin especificar el archivo en la URL
+header("Location: /ranking");
 exit;

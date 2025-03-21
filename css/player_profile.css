@@ -1,0 +1,125 @@
+.edit-btn {
+    background-color: #1c4857;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.edit-form {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    text-align: left;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.form-actions {
+    margin-top: 20px;
+}
+
+.save-btn {
+    background-color: #1c4857;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.cancel-btn {
+    background-color: #f44336;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+
+.player-profile {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+.player-profile .container {
+    width: 800px;
+}
+
+.player-card {
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.player-card__avatar {
+    width: 80px;
+    height: 80px;
+    background-color: #ddd;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.player-card__details h2 {
+    font-size: 24px;
+    color: #2c3e50;
+    margin: 0;
+}
+
+.player-card__details p {
+    margin: 5px 0;
+    color: #666;
+}
+
+.player-card__info {
+    margin-top: 20px;
+}
+
+.player-card__info p {
+    font-size: 16px;
+    margin: 5px 0;
+    color: #444;
+}
+
+.player-history {
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.player-history__title {
+    font-size: 20px;
+    color: #16a085;
+    margin-bottom: 15px;
+}
+
+.player-card__stats {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
