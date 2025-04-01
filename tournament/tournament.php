@@ -283,6 +283,7 @@ function calculate_points($position) {
 
         <?php endif; ?>
         <h1 class="title">Torneos Registrados</h1>
+        <label class="title">Filtrar por año</label>
         <div class="ranking_filter-tournament">
             <select id="yearSelect" name="year" class="select2">
                 <option value="all" <?php echo $selectedYear == 'all' ? 'selected' : ''; ?>>Ver todos</option>

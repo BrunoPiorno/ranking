@@ -862,6 +862,67 @@ body {
     animation: fadeIn 0.5s ease-out;
 }
 
+.categories-form {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.categories-form input[type="number"] {
+    padding: 10px;
+    border: 2px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #333;
+    background-color: #f8f9fa;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    appearance: none;
+    margin-bottom: 0;
+}
+
+.categories-form input:hover {
+    border-color: #1c4857;
+    background-color: #fff;
+}
+
+.categories-form input:focus {
+    outline: none;
+    border-color: #1c4857;
+    box-shadow: 0 0 0 3px rgba(28,72,87,0.1);
+}
+
+.categories-form input[type="submit"] {
+    background-color: #1c4857;
+    color: white;
+    border: 1px solid #1c4857;
+}
+
+.back-button {
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: #1c4857; 
+    text-decoration: none; 
+    border-radius: 5px; 
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid #1c4857;
+}
+
+.back-button:hover {
+    background-color: white;
+}
+
+.back-button a {
+    text-decoration: none;
+    color: white
+}
+
+.back-button:hover a {
+    color: #1c4857;
+}
+
+
 @keyframes fadeIn {
     from {
         opacity: 0;

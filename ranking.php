@@ -26,13 +26,11 @@ if (!empty($search)) {
 }
 
 if ($categoria_filtro) {
-    $where_clauses[] = "(CASE
-                WHEN points >= 900 THEN 'Primera'
-                WHEN points >= 500 THEN 'Segunda'
-                WHEN points >= 300 THEN 'Tercera'
-                WHEN points >= 100 THEN 'Cuarta'
-                ELSE 'Menores'
-            END) = ?";
+    $where_clauses[] = "(SELECT c.name 
+                         FROM categories c 
+                         WHERE players.points >= c.min_points 
+                         ORDER BY c.min_points DESC 
+                         LIMIT 1) = ?";
     $params[] = $categoria_filtro;
     $types .= "s";
 }
@@ -86,13 +84,11 @@ if (!empty($search)) {
 }
 
 if ($categoria_filtro) {
-    $count_where_clauses[] = "(CASE
-                WHEN points >= 900 THEN 'Primera'
-                WHEN points >= 500 THEN 'Segunda'
-                WHEN points >= 300 THEN 'Tercera'
-                WHEN points >= 100 THEN 'Cuarta'
-                ELSE 'Menores'
-            END) = ?";
+    $count_where_clauses[] = "(SELECT c.name 
+                         FROM categories c 
+                         WHERE players.points >= c.min_points 
+                         ORDER BY c.min_points DESC 
+                         LIMIT 1) = ?";
 }
 
 if (!empty($count_where_clauses)) {
