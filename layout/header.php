@@ -43,6 +43,7 @@ require_once __DIR__ . '/../config.php';?>
                         <?php if (isset($_SESSION['user_id'])): ?>
                             <a href="<?= url('/') ?>players/add_player.php">Registrar Jugador</a>
                             <a href="<?= url('/') ?>add_match.php">Registrar Partido</a>
+                            <a href="<?= url('/') ?>admin_categories.php">Administrar Categorías</a>
                         <?php endif; ?>
                         <a href="<?= url('/') ?>ranking.php">Ver Ranking</a>
                         <a href="<?= url('/') ?>tournament/tournament.php">Podios</a>
