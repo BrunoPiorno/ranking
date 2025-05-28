@@ -14,15 +14,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $init_point = $_POST['init_point'];
     $localidad = $_POST['localidad'];
 
-    $checkSql = "SELECT id FROM players WHERE document = ? OR last_name = ?";
+    $checkSql = "SELECT id FROM players WHERE document = ?";
     $checkStmt = $conn->prepare($checkSql);
-    $checkStmt->bind_param("ss", $document, $last_name);
+    $checkStmt->bind_param("s", $document);
     $checkStmt->execute();
     $checkStmt->store_result();
 
 
     if ($checkStmt->num_rows > 0) {
-        $errorMessage = "El jugador con DNI $document o Apellido $last_name ya está registrado.";
+        $errorMessage = "Ya existe un jugador registrado con el DNI $document.";
     } else {
         // Insertar el nuevo jugador en la base de datos
         $sql = "INSERT INTO players (name, last_name, document, phone, points,localidad) 
