@@ -99,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt = $conn->prepare($sql);
     $player1_score = $player1_wins;
     $player2_score = $player2_wins;
-    $results = "Victoria de " . ($winner_id == $player1_id ? $winner_name : $loser_name);
+    $results = "Victoria de " . $winner_name;
     $stmt->bind_param("iiiis", $player1_id, $player2_id, $player1_score, $player2_score, $results);
     $stmt->execute();
 }
