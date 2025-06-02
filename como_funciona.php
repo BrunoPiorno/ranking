@@ -7,7 +7,7 @@ include 'db.php';
     <div class="container">
         <h2 class="section-title">Ranking de Jugadores - Explicación del Sistema de Puntos</h2>
         <p class="section-description">
-            El sistema de puntos funciona según la diferencia de puntos entre los jugadores y si el ganador tiene más o menos puntos que el perdedor. A continuación, te explicamos cómo se calculan los puntos.
+            El sistema de puntos está diseñado para premiar a quienes vencen a jugadores más fuertes y penalizar más cuando se pierde contra jugadores más débiles. Los puntos se calculan automáticamente según la diferencia de puntuación entre los jugadores.
         </p>
 
         <h3 class="sub-title">Explicación del Sistema de Puntos</h3>
@@ -26,9 +26,9 @@ include 'db.php';
                     <td>10 puntos + Bonificación (10% de la diferencia de puntos)</td>
                     <td>-5 puntos</td>
                     <td class="highlight">
-                        Jugador 2 (280 puntos) pierde contra Jugador 1 (217 puntos) 2-0:<br>
-                        Jugador 1 recibe 16.3 puntos (10 puntos base + 6.3 puntos de bonificación).<br>
-                        Jugador 2 pierde 8.15 puntos (-5 puntos base -3.15 puntos de penalización adicional).
+                        Si un jugador con 100 puntos le gana a uno con 200 puntos:<br>
+                        El ganador recibe +20 puntos (+10 base + 10 de bonus por ganarle a alguien más fuerte)<br>
+                        El perdedor solo pierde -5 puntos base (sin penalización por perder contra alguien más débil)
                     </td>
                 </tr>
                 <tr>
@@ -36,9 +36,9 @@ include 'db.php';
                     <td>10 puntos</td>
                     <td>-5 puntos</td>
                     <td>
-                        Jugador 2 (280 puntos) gana contra Jugador 1 (217 puntos) 2-0:<br>
-                        Jugador 1 recibe 10 puntos.<br>
-                        Jugador 2 pierde 5 puntos.
+                        Si un jugador con 200 puntos le gana a uno con 100 puntos:<br>
+                        El ganador recibe +10 puntos base (sin bonus por ser más fuerte)<br>
+                        El perdedor pierde -10 puntos (-5 base -5 de penalización por perder contra alguien más fuerte)
                     </td>
                 </tr>
             </tbody>
@@ -46,13 +46,15 @@ include 'db.php';
 
         <h3 class="sub-title">Bonificación</h3>
         <p class="section-description">
-            Si el ganador tiene menos puntos que el perdedor antes del partido, recibe una bonificación adicional equivalente al 10% de la diferencia de puntos entre ambos jugadores.
+            Cuando un jugador gana contra alguien que tiene más puntos, recibe un BONUS del 10% de la diferencia. Por ejemplo, si alguien con 150 puntos le gana a alguien con 200, recibirá +10 puntos base más un bonus de (200-150)*0.10 = +5 puntos extra.
         </p>
 
         <h3 class="sub-title">Resumen de Cálculos:</h3>
         <ul class="calculation-list">
-            <li><strong>Ganador con menos puntos que el perdedor:</strong> 10 puntos base + bonificación (10% de la diferencia).</li>
-            <li><strong>Ganador con más puntos que el perdedor:</strong> 10 puntos base.</li>
+            <li><strong>Si ganas contra alguien con mayor puntaje:</strong> Recibes +10 puntos base + bonus del 10% de la diferencia de puntos</li>
+            <li><strong>Si ganas contra alguien con menor puntaje:</strong> Recibes solo +10 puntos base</li>
+            <li><strong>Si pierdes contra alguien con mayor puntaje:</strong> Pierdes solo -5 puntos base</li>
+            <li><strong>Si pierdes contra alguien con menor puntaje:</strong> Pierdes -5 puntos base + penalización del 5% de la diferencia</li>
         </ul>
 
         <h3 class="sub-title">Puntos por Posición en el Torneo</h3>

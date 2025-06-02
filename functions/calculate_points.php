@@ -1,27 +1,33 @@
 <?php
 // Función de cálculo de puntos
 function calculate_points($player1_points, $player2_points, $winner_id, $loser_id, $player1_id, $player2_id) {
-    // Tabla de puntos según la diferencia de puntos
-    $rating_difference = abs($player1_points - $player2_points);
+    // Obtener los puntos del ganador y perdedor
+    $winner_points = ($winner_id == $player1_id) ? $player1_points : $player2_points;
+    $loser_points = ($loser_id == $player1_id) ? $player1_points : $player2_points;
     
-    // Variables para almacenar los puntos finales del ganador y perdedor
-    $winner_points = 0;
-    $loser_points = 0;
+    // Calcular la diferencia de puntos
+    $rating_difference = abs($winner_points - $loser_points);
+    
+    // Puntos base
+    $points_for_winner = 10;
+    $points_for_loser = -5;
 
-    // Verificar si el ganador tiene menos puntos que el perdedor
-    if (($winner_id == $player1_id && $player1_points < $player2_points) || 
-        ($winner_id == $player2_id && $player2_points < $player1_points)) {
-        
-        // Calcular la bonificación del ganador (10% de la diferencia de puntos)
-        $bonus_points = $rating_difference * 0.10; // Bonificación del 10% de la diferencia
-        $winner_points = 10 + $bonus_points; // El ganador obtiene 10 puntos + la bonificación
-        $loser_points = -5 - ($rating_difference * 0.05); // El perdedor pierde 5 puntos + penalización (5% de la diferencia)
-    } else {
-        // Si el ganador tiene más puntos que el perdedor
-        $winner_points = 10; // El ganador recibe 10 puntos
-        $loser_points = -5; // El perdedor pierde 5 puntos
+    // Si el ganador tiene menos puntos que el perdedor, recibe un bonus
+    if ($winner_points < $loser_points) {
+        // Bonus del 10% de la diferencia para el ganador
+        $bonus_points = round($rating_difference * 0.10);
+        $points_for_winner += $bonus_points;
     }
 
-    // Retornar los puntos calculados para el ganador y el perdedor
-    return ['winner_points' => $winner_points, 'loser_points' => $loser_points];
+    // Si el perdedor tiene MENOS puntos que el ganador, recibe penalización adicional
+    if ($loser_points < $winner_points) {
+        // Penalización del 5% de la diferencia para el perdedor
+        $penalty_points = round($rating_difference * 0.05);
+        $points_for_loser -= $penalty_points;
+    }
+
+    return [
+        'winner_points' => $points_for_winner,
+        'loser_points' => $points_for_loser
+    ];
 }
