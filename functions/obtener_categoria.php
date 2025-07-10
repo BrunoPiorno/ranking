@@ -1,6 +1,6 @@
 <?php
 function obtener_categoria($puntos) {
-    if ($puntos >= 900) {
+    if ($puntos >= 800) {
         return 'Primera';
     } elseif ($puntos >= 500) {
         return 'Segunda';

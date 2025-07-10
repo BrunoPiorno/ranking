@@ -23,8 +23,8 @@ if (isset($_GET['id'])) {
         // Ranking dentro de la categoría
         $category_ranking_sql = "SELECT COUNT(*) AS category_position FROM players 
                                  WHERE points > $points 
-                                 AND (points >= 900 AND '$category' = 'Primera'
-                                     OR points >= 500 AND points < 900 AND '$category' = 'Segunda'
+                                 AND (points >= 800 AND '$category' = 'Primera'
+                                     OR points >= 500 AND points < 800 AND '$category' = 'Segunda'
                                      OR points >= 300 AND points < 500 AND '$category' = 'Tercera'
                                      OR points >= 100 AND points < 300 AND '$category' = 'Cuarta'
                                      OR points < 100 AND '$category' = 'Menores')";
