@@ -7,55 +7,39 @@ include 'db.php';
     <div class="container">
         <h2 class="section-title">Ranking de Jugadores - Explicación del Sistema de Puntos</h2>
         <p class="section-description">
-            El sistema de puntos está diseñado para premiar a quienes vencen a jugadores más fuertes y penalizar más cuando se pierde contra jugadores más débiles. Los puntos se calculan automáticamente según la diferencia de puntuación entre los jugadores.
+            Nuestro sistema de puntos se basa en un modelo de tabla probado, diseñado para ser justo, predecible y competitivo. Para garantizar la máxima transparencia, hemos adoptado el mismo sistema que usan distintas organizaciones. La cantidad de puntos que un jugador gana depende de la diferencia de ranking con su oponente en el momento del partido.
         </p>
 
-        <h3 class="sub-title">Explicación del Sistema de Puntos</h3>
+        <h3 class="sub-title">Tabla de Puntuación para el Ganador</h3>
         <table class="points-table">
             <thead>
                 <tr>
-                    <th>Situación del Partido</th>
-                    <th>Puntos Ganados por el Ganador</th>
-                    <th>Puntos Perdidos por el Perdedor</th>
-                    <th>Ejemplo</th>
+                    <th>Diferencia entre Jugadores</th>
+                    <th>Puntos si GANA el de MAYOR puntaje</th>
+                    <th>Puntos si GANA el de MENOR puntaje</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Ganador tiene menos puntos que el perdedor</td>
-                    <td>10 puntos + Bonificación (10% de la diferencia de puntos)</td>
-                    <td>-5 puntos</td>
-                    <td class="highlight">
-                        Si un jugador con 100 puntos le gana a uno con 200 puntos:<br>
-                        El ganador recibe +20 puntos (+10 base + 10 de bonus por ganarle a alguien más fuerte)<br>
-                        El perdedor solo pierde -5 puntos base (sin penalización por perder contra alguien más débil)
-                    </td>
-                </tr>
-                <tr>
-                    <td>Ganador tiene más puntos que el perdedor</td>
-                    <td>10 puntos</td>
-                    <td>-5 puntos</td>
-                    <td>
-                        Si un jugador con 200 puntos le gana a uno con 100 puntos:<br>
-                        El ganador recibe +10 puntos base (sin bonus por ser más fuerte)<br>
-                        El perdedor pierde -10 puntos (-5 base -5 de penalización por perder contra alguien más fuerte)
-                    </td>
-                </tr>
+                <tr><td>750 o más</td><td>1</td><td>28</td></tr>
+                <tr><td>De 500 a 749</td><td>2</td><td>26</td></tr>
+                <tr><td>De 400 a 499</td><td>3</td><td>24</td></tr>
+                <tr><td>De 300 a 399</td><td>4</td><td>22</td></tr>
+                <tr><td>De 200 a 299</td><td>5</td><td>20</td></tr>
+                <tr><td>De 150 a 199</td><td>6</td><td>18</td></tr>
+                <tr><td>De 100 a 149</td><td>7</td><td>16</td></tr>
+                <tr><td>De 50 a 99</td><td>8</td><td>14</td></tr>
+                <tr><td>De 25 a 49</td><td>9</td><td>12</td></tr>
+                <tr><td>De 0 a 24</td><td>10</td><td>10</td></tr>
             </tbody>
         </table>
 
-        <h3 class="sub-title">Bonificación</h3>
+        <h3 class="sub-title">Puntos para el Perdedor (Sistema de Suma Cero)</h3>
         <p class="section-description">
-            Cuando un jugador gana contra alguien que tiene más puntos, recibe un BONUS del 10% de la diferencia. Por ejemplo, si alguien con 150 puntos le gana a alguien con 200, recibirá +10 puntos base más un bonus de (200-150)*0.10 = +5 puntos extra.
+            Para que el ranking sea lo más competitivo y justo posible, nuestro sistema es de <strong>"suma cero"</strong>. Esto significa que los puntos no se crean ni se destruyen, simplemente se transfieren. La cantidad de puntos que el perdedor pierde es exactamente la misma que el ganador obtiene.
+            <br>Por ejemplo, si el ganador de un partido obtiene <strong>+16 puntos</strong>, el perdedor recibirá <strong>-16 puntos</strong>.
         </p>
 
-        <h3 class="sub-title">Resumen de Cálculos:</h3>
-        <ul class="calculation-list">
-            <li><strong>Si ganas contra alguien con mayor puntaje:</strong> Recibes +10 puntos base + bonus del 10% de la diferencia de puntos</li>
-            <li><strong>Si ganas contra alguien con menor puntaje:</strong> Recibes solo +10 puntos base</li>
-            <li><strong>Si pierdes contra alguien con mayor puntaje:</strong> Pierdes solo -5 puntos base</li>
-            <li><strong>Si pierdes contra alguien con menor puntaje:</strong> Pierdes -5 puntos base + penalización del 5% de la diferencia</li>
-        </ul>
+
 
         <h3 class="sub-title">Puntos por Posición en el Torneo</h3>
         <p class="section-description">

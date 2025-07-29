@@ -18,11 +18,29 @@ function get_player_points($conn, $player_id) {
     return $row ? $row['points'] : 0;
 }
 
-function update_player_points($conn, $player_id, $points) {
-    $sql = "UPDATE players SET points = points + ? WHERE id = ?";
+function update_player_points($conn, $player_id, $points_change) {
+    $current_points = get_player_points($conn, $player_id);
+    $new_total_points = $current_points + $points_change;
+    $final_points = $new_total_points;
+
+    // Se determina la categoría por los puntos actuales para aplicar el piso correcto.
+    if ($current_points < 100) { // Lógica para Menores
+        if ($new_total_points < 0) {
+            $final_points = 0;
+        }
+    } elseif ($current_points >= 100 && $current_points < 300) { // Lógica para Cuarta
+        if ($new_total_points < 100) {
+            $final_points = 100;
+        }
+    }
+
+    $sql = "UPDATE players SET points = ? WHERE id = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ii", $points, $player_id);
+    $stmt->bind_param("ii", $final_points, $player_id);
     $stmt->execute();
+
+    // Devolvemos el cambio de puntos real para mostrar el mensaje correcto.
+    return $final_points - $current_points;
 }
 
 // Función para obtener el nombre del jugador
@@ -79,17 +97,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Llamamos a la función de cálculo de puntos
     $points = calculate_points($player1_current_points, $player2_current_points, $winner_id, $loser_id, $player1_id, $player2_id);
+
     
-    if ($points['loser_points'] < 0) {
-        // Evitar que los puntos del perdedor bajen de 100
-        $loser_current_points = get_player_points($conn, $loser_id);
-        if ($loser_current_points + $points['loser_points'] < 100) {
-            $points['loser_points'] = 0;  // Establecer 0 puntos adicionales si intentan bajar de 100
-        }
-    }
-    
-    update_player_points($conn, $winner_id, $points['winner_points']);
-    update_player_points($conn, $loser_id, $points['loser_points']);
+    $winner_points_change = update_player_points($conn, $winner_id, $points['winner_points']);
+    $loser_points_change = update_player_points($conn, $loser_id, $points['loser_points']);
 
     $winner_name = get_player_name($conn, $winner_id);
     $loser_name = get_player_name($conn, $loser_id);
@@ -156,12 +167,24 @@ include('layout/header.php');?>
 
         <?php if ($_SERVER['REQUEST_METHOD'] === 'POST'): ?>
             <div class="message">
-                <p>Partido registrado. Jugador <strong><?php echo $winner_name; ?></strong> ganó, con un resultado de <strong><?php echo $final_score; ?></strong>. Se le otorgaron <strong><?php echo $points['winner_points']; ?></strong> puntos. Jugador <strong><?php echo $loser_name; ?></strong> recibió <strong><?php echo $points['loser_points']; ?></strong> puntos.</p>
+                <?php 
+                $successMessage = "Partido registrado. Jugador $winner_name ganó, con un resultado de $player1_wins-$player2_wins. ";
+                $successMessage .= "Se le otorgaron $winner_points_change puntos. ";
+                $successMessage .= "Jugador $loser_name recibió $loser_points_change puntos.";
+                ?>
+                <p><?php echo $successMessage; ?></p>
                 <a href="ranking.php" class="btn">Ver Tabla de Ranking</a>
             </div>
         <?php endif; ?>
     </div>
 </section>
 
-<script src="/ranking/js/select2-init.js"></script>
+<script>
+$(document).ready(function() {
+    $('.select2-player').select2({
+        placeholder: "Buscar jugador...",
+        allowClear: true
+    });
+});
+</script>
 <?php include('layout/footer.php'); ?>

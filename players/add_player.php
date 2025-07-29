@@ -11,7 +11,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $last_name = $_POST['last_name'];
     $document = $_POST['document'];
     $phone = $_POST['phone'];
-    $init_point = $_POST['init_point'];
+    $initial_category = $_POST['initial_category'];
+
+    // Mapeo de categorías a puntos iniciales
+    $points_map = [
+        'primera' => 800,
+        'segunda' => 500,
+        'tercera' => 300,
+        'cuarta'  => 100,
+        'menores' => 0
+    ];
+
+    $init_point = $points_map[$initial_category] ?? 0;
     $localidad = $_POST['localidad'];
 
     $checkSql = "SELECT id FROM players WHERE document = ?";
@@ -84,8 +95,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <div class="add_player__item">
                 <div class="item">
-                    <label for="init_point">Puntaje Inicial:</label>
-                    <input type="number" name="init_point" required>
+                    <label for="initial_category">Categoría Inicial:</label>
+                    <select name="initial_category" required>
+                        <option value="cuarta">Cuarta</option>
+                        <option value="tercera">Tercera</option>
+                        <option value="segunda">Segunda</option>
+                        <option value="primera">Primera</option>
+                        <option value="menores">Menores</option>
+                    </select>
                 </div>
             </div>
             
