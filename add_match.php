@@ -28,7 +28,7 @@ function update_player_points($conn, $player_id, $points_change) {
         if ($new_total_points < 0) {
             $final_points = 0;
         }
-    } elseif ($current_points >= 100 && $current_points < 300) { // Lógica para Cuarta
+    } elseif ($current_points >= 100 && $current_points < 149) { // Lógica para Quinta
         if ($new_total_points < 100) {
             $final_points = 100;
         }
@@ -101,6 +101,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     $winner_points_change = update_player_points($conn, $winner_id, $points['winner_points']);
     $loser_points_change = update_player_points($conn, $loser_id, $points['loser_points']);
+
+    // Después de actualizar los puntos, recalculamos todo el ranking.
+    include 'update_ranking.php';
 
     $winner_name = get_player_name($conn, $winner_id);
     $loser_name = get_player_name($conn, $loser_id);

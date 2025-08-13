@@ -6,8 +6,10 @@ function obtener_categoria($puntos) {
         return 'Segunda';
     } elseif ($puntos >= 300) {
         return 'Tercera';
-    } elseif ($puntos >= 100) {
+    } elseif ($puntos >= 150) {
         return 'Cuarta';
+    } elseif ($puntos >= 100) {
+        return 'Quinta';
     } else {
         return 'Menores';
     }

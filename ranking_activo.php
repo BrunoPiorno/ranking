@@ -144,6 +144,7 @@ include 'functions/obtener_categoria.php';
                         <option value="Segunda" <?php if (isset($_GET['categoria']) && $_GET['categoria'] == 'Segunda') echo 'selected'; ?>>Segunda</option>
                         <option value="Tercera" <?php if (isset($_GET['categoria']) && $_GET['categoria'] == 'Tercera') echo 'selected'; ?>>Tercera</option>
                         <option value="Cuarta" <?php if (isset($_GET['categoria']) && $_GET['categoria'] == 'Cuarta') echo 'selected'; ?>>Cuarta</option>
+                        <option value="Quinta" <?php if (isset($_GET['categoria']) && $_GET['categoria'] == 'Quinta') echo 'selected'; ?>>Quinta</option>
                         <option value="Menores" <?php if (isset($_GET['categoria']) && $_GET['categoria'] == 'Menores') echo 'selected'; ?>>Menores</option>
                     </select>
                     <input type="submit" value="Filtrar">
@@ -202,14 +203,22 @@ include 'functions/obtener_categoria.php';
 
         <div class="pagination">
             <?php if ($total_players > $results_per_page): ?>
+                <?php 
+                // Construir la cadena de parámetros de búsqueda
+                $query_params = [];
+                if (!empty($search)) $query_params['search'] = urlencode($search);
+                if (!empty($categoria_filtro)) $query_params['categoria'] = urlencode($categoria_filtro);
+                $query_string = !empty($query_params) ? '&' . http_build_query($query_params) : '';
+                ?>
+                
                 <?php if ($page > 1): ?>
-                    <a href="?page=<?php echo $page - 1; ?>" class="<?php echo ($page == 1) ? 'disabled' : ''; ?>">Anterior</a>
+                    <a href="?page=<?php echo $page - 1 . $query_string; ?>" class="<?php echo ($page == 1) ? 'disabled' : ''; ?>">Anterior</a>
                 <?php endif; ?>
 
                 Página <?php echo $page; ?> de <?php echo $total_pages; ?>
 
                 <?php if ($page < $total_pages): ?>
-                    <a href="?page=<?php echo $page + 1; ?>" class="<?php echo ($page == $total_pages) ? 'disabled' : ''; ?>">Siguiente</a>
+                    <a href="?page=<?php echo $page + 1 . $query_string; ?>" class="<?php echo ($page == $total_pages) ? 'disabled' : ''; ?>">Siguiente</a>
                 <?php endif; ?>
             <?php endif; ?>
         </div>

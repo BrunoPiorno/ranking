@@ -26,7 +26,8 @@ if (isset($_GET['id'])) {
                                  AND (points >= 800 AND '$category' = 'Primera'
                                      OR points >= 500 AND points < 800 AND '$category' = 'Segunda'
                                      OR points >= 300 AND points < 500 AND '$category' = 'Tercera'
-                                     OR points >= 100 AND points < 300 AND '$category' = 'Cuarta'
+                                     OR points >= 150 AND points < 300 AND '$category' = 'Cuarta'
+                                     OR points >= 100 AND points < 150 AND '$category' = 'Quinta'
                                      OR points < 100 AND '$category' = 'Menores')";
         $category_ranking_result = $conn->query($category_ranking_sql);
         $category_position_data = $category_ranking_result->fetch_assoc();
@@ -185,13 +186,6 @@ if (isset($_SESSION['error'])) {
                         <button type="button" class="cancel-btn" onclick="toggleEditForm()">Cancelar</button>
                     </div>
                 </form>
-            </div>
-        </div>
-
-        <div class="player-card">
-            <div class="player-card__stats">
-                <p>Victorias: <?php echo htmlspecialchars($victories); ?></p>
-                <p>Derrotas: <?php echo htmlspecialchars($defeats); ?></p>
             </div>
         </div>
 

@@ -41,7 +41,7 @@ $players = [];
 while ($row = $result_players->fetch_assoc()) {
     $players[] = $row;
 }
-$category_order = ['menores', 'cuarta', 'tercera', 'segunda', 'Primera'];
+$category_order = ['menores', 'quinta', 'cuarta', 'tercera', 'segunda', 'Primera'];
 
 // Agregar torneo
 if (isset($_POST['add_tournament'])) {

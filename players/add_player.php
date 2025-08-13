@@ -18,7 +18,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'primera' => 800,
         'segunda' => 500,
         'tercera' => 300,
-        'cuarta'  => 100,
+        'cuarta'  => 150,
+        'quinta'  => 100,
         'menores' => 0
     ];
 
@@ -97,6 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="item">
                     <label for="initial_category">Categoría Inicial:</label>
                     <select name="initial_category" required>
+                        <option value="quinta">Quinta</option>
                         <option value="cuarta">Cuarta</option>
                         <option value="tercera">Tercera</option>
                         <option value="segunda">Segunda</option>
