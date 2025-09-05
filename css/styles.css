@@ -638,6 +638,18 @@ body {
     justify-content: space-between;
 }
 
+.ranking_filter-forms {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 20px;
+}
+
+.ranking_filter-forms form {
+    width: 50%;
+}
+
 #categoria {
     width: 200px;
     margin-bottom: 0;

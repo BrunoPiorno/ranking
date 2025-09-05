@@ -14,21 +14,38 @@ $years_result = $conn->query($years_query);
 $years = $years_result->fetch_all(MYSQLI_ASSOC);
 
 // Obtener el año seleccionado o usar el actual
-$selectedYear = isset($_GET['year']) ? $_GET['year'] : date('Y');
+$selectedYear = isset($_GET['year']) && $_GET['year'] !== '' ? $_GET['year'] : 'all';
+$selectedTournament = isset($_GET['tournament_id']) && $_GET['tournament_id'] !== '' ? $_GET['tournament_id'] : 'all';
 
 $sql_tournaments = "SELECT t.*, COUNT(r.id) as total_players 
                    FROM tournaments t 
                    LEFT JOIN results r ON t.id = r.tournament_id";
 
+$conditions = [];
+$params = [];
+$types = "";
+
 if ($selectedYear != 'all') {
-    $sql_tournaments .= " WHERE YEAR(t.tournament_date) = ?";
+    $conditions[] = "YEAR(t.tournament_date) = ?";
+    $params[] = $selectedYear;
+    $types .= "i";
+}
+
+if ($selectedTournament != 'all') {
+    $conditions[] = "t.id = ?";
+    $params[] = $selectedTournament;
+    $types .= "i";
+}
+
+if (!empty($conditions)) {
+    $sql_tournaments .= " WHERE " . implode(" AND ", $conditions);
 }
 
 $sql_tournaments .= " GROUP BY t.id ORDER BY t.tournament_date DESC";
 
 $stmt = $conn->prepare($sql_tournaments);
-if ($selectedYear != 'all') {
-    $stmt->bind_param("i", $selectedYear);
+if (!empty($params)) {
+    $stmt->bind_param($types, ...$params);
 }
 $stmt->execute();
 $tournaments = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
@@ -283,18 +300,51 @@ function calculate_points($position) {
 
         <?php endif; ?>
         <h1 class="title">Torneos Registrados</h1>
-        <label class="title">Filtrar por año</label>
-        <div class="ranking_filter-tournament">
-            <select id="yearSelect" name="year" class="select2">
-                <option value="all" <?php echo $selectedYear == 'all' ? 'selected' : ''; ?>>Ver todos</option>
-                <?php foreach ($years as $year): ?>
-                    <option value="<?php echo $year['year']; ?>" 
-                            <?php echo $selectedYear == $year['year'] ? 'selected' : ''; ?>>
-                        <?php echo $year['year']; ?>
-                    </option>
-                <?php endforeach; ?>
-            </select>
+
+        <div class="ranking__cont">
+            <div class="ranking_filter-forms">
+                <form method="GET" action="">
+                    <label for="tournamentSelect">Filtrar por torneo:</label>
+                    <div class="ranking_filter">
+                        <select id="tournamentSelect" name="tournament_id" class="select2">
+                            <option value="all">Ver todos</option>
+                            <?php
+                            $all_tournaments_sql = "SELECT id, name FROM tournaments ORDER BY tournament_date DESC";
+                            $all_tournaments_result = $conn->query($all_tournaments_sql);
+                            $all_tournaments = $all_tournaments_result->fetch_all(MYSQLI_ASSOC);
+                            foreach ($all_tournaments as $tournament_item): ?>
+                                <option value="<?php echo $tournament_item['id']; ?>" <?php echo ($selectedTournament == $tournament_item['id']) ? 'selected' : ''; ?>>
+                                    <?php echo htmlspecialchars($tournament_item['name']); ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </form>
+
+                <form method="GET" action="">
+                    <label for="yearSelect">Filtrar por año:</label>
+                    <div class="ranking_filter">
+                        <select id="yearSelect" name="year" class="select2">
+                            <option value="all" <?php echo $selectedYear == 'all' ? 'selected' : ''; ?>>Ver todos</option>
+                            <?php 
+                            $years_with_tournaments_sql = "SELECT DISTINCT YEAR(tournament_date) as year FROM tournaments ORDER BY year DESC";
+                            $years_result = $conn->query($years_with_tournaments_sql);
+                            $years = $years_result->fetch_all(MYSQLI_ASSOC);
+                            foreach ($years as $year_item): ?>
+                                <option value="<?php echo $year_item['year']; ?>" <?php echo ($selectedYear == $year_item['year']) ? 'selected' : ''; ?>>
+                                    <?php echo $year_item['year']; ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </form>
+            </div>
+
+            <?php if ($selectedTournament != 'all' || $selectedYear != 'all'): ?>
+                <a href="tournament.php" class="clear-filters-btn">Limpiar Filtros</a>
+            <?php endif; ?>
         </div>
+
         <?php foreach ($tournaments as $tournament): ?>
             <div class="tournament-details">
                 <h3 class="tournament_title"><?php echo $tournament['name']; ?> (<?php echo $tournament['tournament_date']; ?>)</h3>
@@ -315,19 +365,20 @@ function calculate_points($position) {
                 // Agrupar los resultados por categoría
                 $grouped_results = [];
                 foreach ($results as $result) {
-                    $grouped_results[$result['category']][] = $result;
+                    $grouped_results[strtolower($result['category'])][] = $result;
                 }
 
                 echo "<div class='podio-grid-container'>"; // Contenedor general
 
                 // Mostrar los podios en el orden deseado
                 foreach ($category_order as $category) {
-                    if (isset($grouped_results[$category])) {
+                    $lower_category = strtolower($category);
+                    if (isset($grouped_results[$lower_category])) {
                         echo "<div class='podio-container'>";
                         echo "<div class='podio-title'><h4>Podio - " . ucfirst($category) . "</h4></div>";
                         echo "<div class='podio-grid'>"; // Inicia la grilla de podio
 
-                        foreach ($grouped_results[$category] as $result) {
+                        foreach ($grouped_results[$lower_category] as $result) {
                             // Mostrar solo posiciones 1, 2 y 3 en el podio
                             if ($result['position'] <= 3) {
                                 $position_class = '';
@@ -356,7 +407,7 @@ function calculate_points($position) {
 
                         // Mostrar el cuarto puesto justo debajo del podio
                         echo "<div class='cuarto-puesto'>";
-                        foreach ($grouped_results[$category] as $result) {
+                        foreach ($grouped_results[$lower_category] as $result) {
                             if ($result['position'] == 4) {
                                 echo "<div class='cuarto-item'>";
                                 echo "<p><strong>Cuarto Puesto:</strong></p>";
@@ -400,3 +451,28 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 <script src="<?= url('/') ?>js/select2-init.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const yearSelect = document.getElementById('yearSelect');
+    const tournamentSelect = document.getElementById('tournamentSelect');
+
+    function updateUrl() {
+        const year = yearSelect.value;
+        const tournamentId = tournamentSelect.value;
+        let url = 'tournament.php?';
+        const params = [];
+
+        if (year) {
+            params.push(`year=${year}`);
+        }
+        if (tournamentId) {
+            params.push(`tournament_id=${tournamentId}`);
+        }
+
+        window.location.href = url + params.join('&');
+    }
+
+    yearSelect.addEventListener('change', updateUrl);
+    tournamentSelect.addEventListener('change', updateUrl);
+});
+</script>
